@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Directory</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .filters {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-group h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 12px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .filter-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+
+        /* Remove all table styling for a plain CSV look */
+        .table-container {
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            overflow-x: unset;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: none;
+        }
+
+        th,
+        td {
+            padding: 0.2em 0.5em;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            border-left: none;
+            border-right: none;
+            background: none;
+            color: #222;
+            font-weight: normal;
+        }
+
+        th {
+            background: #eee;
+            font-weight: bold;
+        }
+
+        .tag {
+            /* Remove tag styling */
+            background: none;
+            color: inherit;
+            padding: 0;
+            border-radius: 0;
+            font-size: inherit;
+            margin: 0;
+            display: inline;
+        }
+
+        .no-results {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            th,
+            td {
+                padding: 0.2em 0.2em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Outdoor Gear Retailers</h1>
+
+    <div class="filters">
+        <div class="filter-group">
+            <h3>Region</h3>
+            <div class="filter-options">
+                <button class="filter-btn active" onclick="filterTable('region', 'all')">All</button>
+                <button class="filter-btn" onclick="filterTable('region', 'europe')">Europe</button>
+                <button class="filter-btn" onclick="filterTable('region', 'usa')">USA</button>
+                <button class="filter-btn" onclick="filterTable('region', 'asia')">Asia</button>
+                <button class="filter-btn" onclick="filterTable('region', 'south_america')">South America</button>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <h3>Type</h3>
+            <div class="filter-options">
+                <button class="filter-btn active" onclick="filterTable('type', 'all')">All</button>
+                <button class="filter-btn" onclick="filterTable('type', 'big-brand')">Big Brand</button>
+                <button class="filter-btn" onclick="filterTable('type', 'cottage')">Cottage</button>
+                <button class="filter-btn" onclick="filterTable('type', 'retailer')">Retailer</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container" id="table-container">
+        <table id="directory-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Region</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be dynamically inserted by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Want to contribute to this directory? Submit a pull request on our <a
+                href="https://github.com/yourusername/website-directory" target="_blank">GitHub repository</a>.</p>
+        <p>Found an issue or have a suggestion? <a href="https://github.com/yourusername/website-directory/issues"
+                target="_blank">Open an issue</a>.</p>
+    </footer>
+
+    <script>
+        // Sample data - in a real app this would come from a server
+        const allData = [
+            {
+                name: "Example Store",
+                url: "https://example.com",
+                regions: ["europe", "usa"],
+                types: ["big-brand", "retailer"]
+            },
+            {
+                name: "Organic Goods",
+                url: "https://example.org",
+                regions: ["usa"],
+                types: ["cottage"]
+            },
+            {
+                name: "Tech Shop",
+                url: "https://example.net",
+                regions: ["asia", "europe"],
+                types: ["big-brand"]
+            },
+            {
+                name: "Fashion Outlet",
+                url: "https://example.co.uk",
+                regions: ["europe"],
+                types: ["retailer"]
+            },
+            {
+                name: "Japanese Crafts",
+                url: "https://example.jp",
+                regions: ["asia"],
+                types: ["cottage"]
+            },
+            {
+                name: "German Engineering",
+                url: "https://example.de",
+                regions: ["europe"],
+                types: ["big-brand"]
+            }
+        ];
+
+        // Current filter state
+        let currentFilters = {
+            region: 'all',
+            type: 'all'
+        };
+
+        // Function to filter the table
+        function filterTable(filterType, value) {
+            // Update current filters
+            currentFilters[filterType] = value;
+
+            // Update active button states
+            document.querySelectorAll(`.filter-btn[onclick*="${filterType}"]`).forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter the data
+            const filteredData = allData.filter(item => {
+                const regionMatch = currentFilters.region === 'all' ||
+                    item.regions.includes(currentFilters.region);
+                const typeMatch = currentFilters.type === 'all' ||
+                    item.types.includes(currentFilters.type);
+                return regionMatch && typeMatch;
+            });
+
+            // Update the table
+            updateTable(filteredData);
+        }
+
+        // Function to update the table with filtered data
+        function updateTable(data) {
+            const tableBody = document.querySelector('#directory-table tbody');
+
+            if (data.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="no-results">No results found matching your filters.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = ''
+
+            data.forEach(item => {
+                // Format regions as plain text
+                const regionTags = item.regions.map(region => {
+                    const displayName = {
+                        'europe': 'Europe',
+                        'usa': 'USA',
+                        'asia': 'Asia',
+                        'south_america': 'South America'
+                    }[region] || region;
+                    return displayName;
+                }).join(', ');
+
+                // Format types as plain text
+                const typeTags = item.types.map(type => {
+                    const displayName = {
+                        'big-brand': 'Big Brand',
+                        'cottage': 'Cottage',
+                        'retailer': 'Retailer'
+                    }[type] || type;
+                    return displayName;
+                }).join(', ');
+
+                html += `
+                    <tr>
+                        <td><a href="${item.url}" target="_blank">${item.name}</a></td>
+                        <td>${regionTags}</td>
+                        <td>${typeTags}</td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = html;
+        }
+
+        // Initialize the table
+        document.addEventListener('DOMContentLoaded', function () {
+            updateTable(allData);
+        });
+    </script>
+</body>
+
+</html>
