@@ -139,6 +139,12 @@
             color: #2c3e50;
         }
 
+        .report-form .note {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
         .report-form .github-button {
             display: inline-block;
             background-color: #24292e;
@@ -148,6 +154,19 @@
             border-radius: 6px;
             font-size: 14px;
             transition: background-color 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .report-form .email-link {
+            display: block;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .report-form .email-link:hover {
+            text-decoration: underline;
         }
 
         .report-form .github-button:hover {
@@ -204,6 +223,7 @@
 
     <div class="report-form">
         <h3>Report an Issue</h3>
+        <div class="note">You'll need a GitHub account to report issues directly. If you don't have one, you can email us instead.</div>
         <a href="https://github.com/Kaya-Sem/outdoorgearshops/issues/new?template=bug_report.md" 
            target="_blank" 
            class="github-button">
@@ -212,6 +232,7 @@
             </svg>
             Report an Issue on GitHub
         </a>
+        <a href="mailto:kayasemvc@gmail.com" class="email-link">Or email us instead</a>
     </div>
 
     <div class="table-container" id="table-container">
