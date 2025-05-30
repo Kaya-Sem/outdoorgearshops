@@ -269,15 +269,15 @@
         // Sample data - in a real app this would come from a server
         const allData = [
             {
-                name: "Example Store",
-                url: "https://example.com",
-                regions: ["europe", "usa"],
-                types: ["big-brand", "retailer"]
+                name: "Cumulus",
+                url: "https://cumulus.equipment/eu_en/",
+                regions: ["worldwide"],
+                types: ["cottage"]
             },
             {
-                name: "Organic Goods",
-                url: "https://example.org",
-                regions: ["usa"],
+                name: "Atom Packs",
+                url: "https://atompacks.co.uk/",
+                regions: ["worldwide"],
                 types: ["cottage"]
             },
             {
@@ -287,15 +287,21 @@
                 types: ["big-brand"]
             },
             {
-                name: "Fashion Outlet",
-                url: "https://example.co.uk",
-                regions: ["europe"],
-                types: ["retailer"]
+                name: "Liteway",
+                url: "https://liteway.equipment/",
+                regions: ["worldwide"],
+                types: ["cottage"]
             },
             {
-                name: "Japanese Crafts",
-                url: "https://example.jp",
-                regions: ["asia"],
+                name: "Pod 7 Kilo",
+                url: "https://www.pod7kilo.cz/en/",
+                regions: ["europe"],
+                types: ["cottage"]
+            },
+            {
+                name: "GramXpert",
+                url: "https://www.gramxpert.eu/",
+                regions: ["worldwide"],
                 types: ["cottage"]
             },
             {
@@ -304,6 +310,7 @@
                 regions: ["worldwide"],
                 types: ["cottage"]
             }
+
         ];
 
         // Current filter state
@@ -350,7 +357,9 @@
             // Filter the data
             const filteredData = allData.filter(item => {
                 const regionMatch = currentFilters.region.has('all') ||
-                    item.regions.some(region => currentFilters.region.has(region));
+                    item.regions.some(region =>
+                        region === 'worldwide' || currentFilters.region.has(region)
+                    );
                 const typeMatch = currentFilters.type.has('all') ||
                     item.types.some(type => currentFilters.type.has(type));
                 return regionMatch && typeMatch;
