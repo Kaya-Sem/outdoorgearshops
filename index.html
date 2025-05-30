@@ -108,6 +108,44 @@
             background-color: #2980b9;
         }
 
+
+        /* For printing the page */
+        @media print {
+
+            .filters,
+            .report-form,
+
+            footer {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            a::after {
+                content: " (" attr(href) ")";
+                font-size: 0.9em;
+            }
+
+            h1,
+            header,
+            .site-title,
+            .nav,
+            .breadcrumbs,
+            .no-print {
+                display: none !important;
+            }
+
+            table,
+            tr,
+            td,
+            th {
+                page-break-inside: avoid;
+            }
+        }
+
         .table-container {
             background: none;
             border-radius: 0;
