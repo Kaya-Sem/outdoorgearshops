@@ -8,6 +8,8 @@ If you have favorite niche cottage brands or stores I’ve missed, please let me
 ### Setup
 The site is contained in a single `html` file right now for simplicity reasons. I am not a huge fan of premature optimisation. If things grow, the data could be extracted into its own file, just like the javascript.
 
+The site is hosted on cloudflare page, and updates on new PR's and commits, 
+
 </br>
 </br>
 </br>
