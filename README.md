@@ -5,6 +5,9 @@
 If you have favorite niche cottage brands or stores I’ve missed, please let me know — I'd be happy to add them!
 
 
+### Setup
+The site is contained in a single `html` file right now for simplicity reasons. I am not a huge fan of premature optimisation. If things grow, the data could be extracted into its own file, just like the javascript.
+
 </br>
 </br>
 </br>
