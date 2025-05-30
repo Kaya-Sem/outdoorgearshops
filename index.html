@@ -130,7 +130,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             margin-top: 40px;
-            text-align: center;
+            text-align: left;
         }
 
         .report-form h3 {
@@ -253,8 +253,6 @@
 
     <div class="report-form">
         <h3>Report an Issue</h3>
-        <div class="note">You'll need a GitHub account to report issues directly. If you don't have one, you can use the
-            form below instead.</div>
         <a href="https://github.com/Kaya-Sem/outdoorgearshops/issues/new?template=bug_report.md" target="_blank"
             class="github-button">
             <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor">
@@ -264,15 +262,19 @@
             </svg>
             Report an Issue on GitHub
         </a>
+        <div class="note">You'll need a GitHub account to report issues directly. If you don't have one, you can use the
+            form below instead.</div>
         <form action="https://formsubmit.co/kayasemvc@gmail.com" method="POST"
-            style="margin-top: 20px; max-width: 400px; margin-left: auto; margin-right: auto;">
+            style="margin-top: 20px; max-width: 400px;">
             <input type="hidden" name="_subject" value="New Issue Report">
             <input type="hidden" name="_template" value="table">
-            <textarea name="message" rows="4"
-                style="width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
-                placeholder="Describe the issue or suggestion..."></textarea>
-            <button type="submit"
-                style="background-color: #3498db; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Submit</button>
+            <div style="display: flex; gap: 10px;">
+                <textarea name="message" rows="4"
+                    style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
+                    placeholder="Describe the issue or suggestion..."></textarea>
+                <button type="submit"
+                    style="background-color: #3498db; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; align-self: flex-end;">Submit</button>
+            </div>
         </form>
     </div>
 
