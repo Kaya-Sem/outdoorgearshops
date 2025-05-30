@@ -308,6 +308,12 @@
                 types: ["retailer"]
             },
             {
+                name: "Tread Lite Gear",
+                url: "https://www.treadlitegear.co.uk/",
+                regions: ["worldwide"],
+                types: ["cottage"]
+            },
+            {
                 name: "WeitLäufer",
                 url: "https://www.weitlaeufer.de/en/",
                 regions: ["europe"],
@@ -332,9 +338,21 @@
                 types: ["retailer", "cottage"]
             },
             {
+                name: "Malachowski",
+                url: "https://malachowski.pl/en/home-en/",
+                regions: ["worldwide"],
+                types: ["big-brand"]
+            },
+            {
                 name: "Blind Banana Bags",
                 url: "https://blindbananabags.com/",
                 regions: ["worldwide"],
+                types: ["cottage"]
+            },
+            {
+                name: "Rebelt",
+                url: "https://rebelt.cz/",
+                regions: ["europe"],
                 types: ["cottage"]
             },
             {
@@ -344,10 +362,58 @@
                 types: ["cottage"]
             },
             {
+                name: "Loggia",
+                url: "https://loggiagear.com/en-eu",
+                regions: ["worldwide"],
+                types: ["cottage"]
+            },
+            {
+                name: "HikerHaus",
+                url: "https://hikerhaus.de/",
+                regions: ["worldwide"],
+                types: ["retailer"]
+            },
+            {
+                name: "Khibu",
+                url: "https://khibu.hu/en/",
+                regions: ["europe"],
+                types: ["cottage"]
+            },
+            {
+                name: "Hyberg",
+                url: "https://hyberg.de/",
+                regions: ["worldwide"],
+                types: ["cottage"]
+            },
+            {
+                name: "Rockfront",
+                url: "https://rockfront.eu/",
+                regions: ["worldwide"],
+                types: ["cottage"]
+            },
+            {
+                name: "Leichtmut",
+                url: "https://www.leichtmut.de/",
+                regions: ["worldwide"],
+                types: ["cottage"]
+            },
+            {
                 name: "Atelier Longue Distance",
                 url: "https://atelierlonguedistance.fr/en/home/",
                 regions: ["europe"],
                 types: ["cottage"]
+            },
+            {
+                name: "Tidy Gear",
+                url: "https://www.tidygear.at/",
+                regions: ["europe"],
+                types: ["cottage"]
+            },
+            {
+                name: "Gramino",
+                url: "https://gramino.cz/",
+                regions: ["europe"],
+                types: ["retailer"]
             },
             {
                 name: "Tipik Tentes",
@@ -386,6 +452,18 @@
                 types: ["retailer"]
             },
             {
+                name: "Valley+Peak",
+                url: "https://valleyandpeak.co.uk/",
+                regions: ["worldwide"],
+                types: ["retailer"]
+            },
+            {
+                name: "Vindla",
+                url: "https://vindla.com/",
+                regions: ["worldwide"],
+                types: ["cottage"]
+            },
+            {
                 name: "Outdoorline",
                 url: "https://www.outdoorline.sk/en/",
                 regions: ["worldwide"],
@@ -395,6 +473,18 @@
                 name: "Pod 7 Kilo",
                 url: "https://www.pod7kilo.cz/en/",
                 regions: ["europe"],
+                types: ["cottage"]
+            },
+            {
+                name: "XFOIL",
+                url: "https://www.xfoil.shop/en",
+                regions: ["europe"],
+                types: ["retailer"]
+            },
+            {
+                name: "Wild Sky Gear",
+                url: "https://wildskygear.co.uk/index.asp",
+                regions: ["global"],
                 types: ["cottage"]
             },
             {
@@ -412,29 +502,22 @@
 
         ];
 
-        // Current filter state
         let currentFilters = {
             region: new Set(['all']),
             type: new Set(['all'])
         };
 
-        // Function to filter the table
         function filterTable(filterType, value) {
-            // Update current filters
             const filterSet = currentFilters[filterType];
 
             if (value === 'all') {
-                // If 'all' is clicked, clear other selections
                 filterSet.clear();
                 filterSet.add('all');
             } else {
-                // Remove 'all' if it exists
                 filterSet.delete('all');
 
-                // Toggle the selected value
                 if (filterSet.has(value)) {
                     filterSet.delete(value);
-                    // If no filters are selected, add 'all' back
                     if (filterSet.size === 0) {
                         filterSet.add('all');
                     }
@@ -443,7 +526,6 @@
                 }
             }
 
-            // Update active button states
             document.querySelectorAll(`.filter-btn[onclick*="${filterType}"]`).forEach(btn => {
                 const btnValue = btn.getAttribute('data-value');
                 if (filterSet.has(btnValue)) {
@@ -453,7 +535,6 @@
                 }
             });
 
-            // Filter the data
             const filteredData = allData.filter(item => {
                 const regionMatch = currentFilters.region.has('all') ||
                     item.regions.some(region =>
@@ -464,11 +545,9 @@
                 return regionMatch && typeMatch;
             });
 
-            // Update the table
             updateTable(filteredData);
         }
 
-        // Function to update the table with filtered data
         function updateTable(data) {
             const tableBody = document.querySelector('#directory-table tbody');
 
@@ -484,7 +563,6 @@
             let html = ''
 
             data.forEach(item => {
-                // Format regions as plain text
                 const regionTags = item.regions.map(region => {
                     const displayName = {
                         'africa': 'Africa',
@@ -497,7 +575,6 @@
                     return displayName;
                 }).join(', ');
 
-                // Format types as plain text
                 const typeTags = item.types.map(type => {
                     const displayName = {
                         'big-brand': 'Big Brand',
@@ -520,7 +597,6 @@
             tableBody.innerHTML = html;
         }
 
-        // Initialize the table
         document.addEventListener('DOMContentLoaded', function () {
             updateTable(allData);
         });
