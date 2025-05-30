@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outdoor Gear Shops</title>
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏔️</text></svg>">
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌲</text></svg>">
 
     <style>
         body {
@@ -198,29 +198,6 @@
 <body>
     <h1>Outdoor Gear Shops</h1>
 
-    <div class="filters">
-        <div class="filter-group">
-            <h3>Region</h3>
-            <div class="filter-options">
-                <button class="filter-btn active" data-value="all" onclick="filterTable('region', 'all')">All</button>
-                <button class="filter-btn" data-value="europe" onclick="filterTable('region', 'europe')">Europe</button>
-                <button class="filter-btn" data-value="usa" onclick="filterTable('region', 'usa')">USA</button>
-                <button class="filter-btn" data-value="asia" onclick="filterTable('region', 'asia')">Asia</button>
-                <button class="filter-btn" data-value="south_america" onclick="filterTable('region', 'south_america')">South America</button>
-            </div>
-        </div>
-
-        <div class="filter-group">
-            <h3>Type</h3>
-            <div class="filter-options">
-                <button class="filter-btn active" data-value="all" onclick="filterTable('type', 'all')">All</button>
-                <button class="filter-btn" data-value="big-brand" onclick="filterTable('type', 'big-brand')">Big Brand</button>
-                <button class="filter-btn" data-value="cottage" onclick="filterTable('type', 'cottage')">Cottage</button>
-                <button class="filter-btn" data-value="retailer" onclick="filterTable('type', 'retailer')">Retailer</button>
-            </div>
-        </div>
-    </div>
-
     <div class="report-form">
         <h3>Report an Issue</h3>
         <div class="note">You'll need a GitHub account to report issues directly. If you don't have one, you can email us instead.</div>
@@ -233,6 +210,31 @@
             Report an Issue on GitHub
         </a>
         <a href="mailto:kayasemvc@gmail.com" class="email-link">Or email us instead</a>
+    </div>
+
+    <div class="filters">
+        <div class="filter-group">
+            <h3>Region</h3>
+            <div class="filter-options">
+                <button class="filter-btn active" data-value="all" onclick="filterTable('region', 'all')">All</button>
+                <button class="filter-btn" data-value="africa" onclick="filterTable('region', 'africa')">Africa</button>
+                <button class="filter-btn" data-value="asia" onclick="filterTable('region', 'asia')">Asia</button>
+                <button class="filter-btn" data-value="europe" onclick="filterTable('region', 'europe')">Europe</button>
+                <button class="filter-btn" data-value="north_america" onclick="filterTable('region', 'north_america')">North America</button>
+                <button class="filter-btn" data-value="south_america" onclick="filterTable('region', 'south_america')">South America</button>
+                <button class="filter-btn" data-value="oceania" onclick="filterTable('region', 'oceania')">Oceania</button>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <h3>Type</h3>
+            <div class="filter-options">
+                <button class="filter-btn active" data-value="all" onclick="filterTable('type', 'all')">All</button>
+                <button class="filter-btn" data-value="big-brand" onclick="filterTable('type', 'big-brand')">Big Brand</button>
+                <button class="filter-btn" data-value="cottage" onclick="filterTable('type', 'cottage')">Cottage</button>
+                <button class="filter-btn" data-value="retailer" onclick="filterTable('type', 'retailer')">Retailer</button>
+            </div>
+        </div>
     </div>
 
     <div class="table-container" id="table-container">
@@ -371,10 +373,12 @@
                 // Format regions as plain text
                 const regionTags = item.regions.map(region => {
                     const displayName = {
-                        'europe': 'Europe',
-                        'usa': 'USA',
+                        'africa': 'Africa',
                         'asia': 'Asia',
-                        'south_america': 'South America'
+                        'europe': 'Europe',
+                        'north_america': 'North America',
+                        'south_america': 'South America',
+                        'oceania': 'Oceania'
                     }[region] || region;
                     return displayName;
                 }).join(', ');
