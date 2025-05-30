@@ -178,6 +178,11 @@
             margin-right: 6px;
         }
 
+        .report-form .github-button svg {
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
         footer {
             margin-top: 180px;
         }
@@ -249,6 +254,7 @@
         <table id="directory-table">
             <thead>
                 <tr>
+                    <th style="width: 32px"></th>
                     <th>Name</th>
                     <th>Region</th>
                     <th>Type</th>
@@ -499,6 +505,7 @@
 
                 html += `
                     <tr>
+                        <td><img src="https://www.google.com/s2/favicons?domain=${item.url}" alt="" width="16" height="16" style="vertical-align: middle;"></td>
                         <td><a href="${item.url}" target="_blank">${item.name}</a></td>
                         <td>${regionTags}</td>
                         <td>${typeTags}</td>
