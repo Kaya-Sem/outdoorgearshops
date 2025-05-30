@@ -58,6 +58,7 @@
             cursor: pointer;
             font-size: 14px;
             transition: all 0.2s;
+            margin: 2px;
         }
 
         .filter-btn:hover {
@@ -67,6 +68,10 @@
         .filter-btn.active {
             background-color: #3498db;
             color: white;
+        }
+
+        .filter-btn.active:hover {
+            background-color: #2980b9;
         }
 
         /* Remove all table styling for a plain CSV look */
@@ -142,21 +147,21 @@
         <div class="filter-group">
             <h3>Region</h3>
             <div class="filter-options">
-                <button class="filter-btn active" onclick="filterTable('region', 'all')">All</button>
-                <button class="filter-btn" onclick="filterTable('region', 'europe')">Europe</button>
-                <button class="filter-btn" onclick="filterTable('region', 'usa')">USA</button>
-                <button class="filter-btn" onclick="filterTable('region', 'asia')">Asia</button>
-                <button class="filter-btn" onclick="filterTable('region', 'south_america')">South America</button>
+                <button class="filter-btn active" data-value="all" onclick="filterTable('region', 'all')">All</button>
+                <button class="filter-btn" data-value="europe" onclick="filterTable('region', 'europe')">Europe</button>
+                <button class="filter-btn" data-value="usa" onclick="filterTable('region', 'usa')">USA</button>
+                <button class="filter-btn" data-value="asia" onclick="filterTable('region', 'asia')">Asia</button>
+                <button class="filter-btn" data-value="south_america" onclick="filterTable('region', 'south_america')">South America</button>
             </div>
         </div>
 
         <div class="filter-group">
             <h3>Type</h3>
             <div class="filter-options">
-                <button class="filter-btn active" onclick="filterTable('type', 'all')">All</button>
-                <button class="filter-btn" onclick="filterTable('type', 'big-brand')">Big Brand</button>
-                <button class="filter-btn" onclick="filterTable('type', 'cottage')">Cottage</button>
-                <button class="filter-btn" onclick="filterTable('type', 'retailer')">Retailer</button>
+                <button class="filter-btn active" data-value="all" onclick="filterTable('type', 'all')">All</button>
+                <button class="filter-btn" data-value="big-brand" onclick="filterTable('type', 'big-brand')">Big Brand</button>
+                <button class="filter-btn" data-value="cottage" onclick="filterTable('type', 'cottage')">Cottage</button>
+                <button class="filter-btn" data-value="retailer" onclick="filterTable('type', 'retailer')">Retailer</button>
             </div>
         </div>
     </div>
@@ -226,27 +231,51 @@
 
         // Current filter state
         let currentFilters = {
-            region: 'all',
-            type: 'all'
+            region: new Set(['all']),
+            type: new Set(['all'])
         };
 
         // Function to filter the table
         function filterTable(filterType, value) {
             // Update current filters
-            currentFilters[filterType] = value;
+            const filterSet = currentFilters[filterType];
+            
+            if (value === 'all') {
+                // If 'all' is clicked, clear other selections
+                filterSet.clear();
+                filterSet.add('all');
+            } else {
+                // Remove 'all' if it exists
+                filterSet.delete('all');
+                
+                // Toggle the selected value
+                if (filterSet.has(value)) {
+                    filterSet.delete(value);
+                    // If no filters are selected, add 'all' back
+                    if (filterSet.size === 0) {
+                        filterSet.add('all');
+                    }
+                } else {
+                    filterSet.add(value);
+                }
+            }
 
             // Update active button states
             document.querySelectorAll(`.filter-btn[onclick*="${filterType}"]`).forEach(btn => {
-                btn.classList.remove('active');
+                const btnValue = btn.getAttribute('data-value');
+                if (filterSet.has(btnValue)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
             });
-            event.target.classList.add('active');
 
             // Filter the data
             const filteredData = allData.filter(item => {
-                const regionMatch = currentFilters.region === 'all' ||
-                    item.regions.includes(currentFilters.region);
-                const typeMatch = currentFilters.type === 'all' ||
-                    item.types.includes(currentFilters.type);
+                const regionMatch = currentFilters.region.has('all') ||
+                    item.regions.some(region => currentFilters.region.has(region));
+                const typeMatch = currentFilters.type.has('all') ||
+                    item.types.some(type => currentFilters.type.has(type));
                 return regionMatch && typeMatch;
             });
 
