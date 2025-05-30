@@ -236,8 +236,7 @@
 
     <div class="report-form">
         <h3>Report an Issue</h3>
-        <div class="note">You'll need a GitHub account to report issues directly. If you don't have one, you can email
-            us instead.</div>
+        <div class="note">You'll need a GitHub account to report issues directly. If you don't have one, you can use the form below instead.</div>
         <a href="https://github.com/Kaya-Sem/outdoorgearshops/issues/new?template=bug_report.md" target="_blank"
             class="github-button">
             <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor">
@@ -247,7 +246,13 @@
             </svg>
             Report an Issue on GitHub
         </a>
-        <a href="mailto:kayasemvc@gmail.com" class="email-link">Or email us instead</a>
+        <form action="https://formsubmit.co/kayasemvc@gmail.com" method="POST" style="margin-top: 20px;">
+            <input type="hidden" name="_subject" value="New Issue Report">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" value="https://kayasem.github.io/outdoorgearshops/thanks.html">
+            <textarea name="message" rows="4" style="width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" placeholder="Describe the issue or suggestion..."></textarea>
+            <button type="submit" style="background-color: #3498db; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Submit Report</button>
+        </form>
     </div>
 
     <div class="table-container" id="table-container">
@@ -452,7 +457,7 @@
             // Filter the data
             const filteredData = allData.filter(item => {
                 const regionMatch = currentFilters.region.has('all') ||
-                    item.regions.some(region =>
+                    item.regions.some(region => 
                         region === 'worldwide' || currentFilters.region.has(region)
                     );
                 const typeMatch = currentFilters.type.has('all') ||
