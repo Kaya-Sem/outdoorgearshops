@@ -101,7 +101,7 @@
             color: #666;
         }
 
-        .header-dropdown.active + .header-chevron {
+        .header-dropdown.active+.header-chevron {
             transform: rotate(180deg);
         }
 
@@ -112,7 +112,7 @@
             background: white;
             border: 1px solid #dee2e6;
             border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             min-width: 200px;
             display: none;
@@ -293,22 +293,33 @@
                     <th>Name</th>
                     <th onclick="toggleHeaderDropdown('region', event)">Region
                         <div class="header-dropdown" id="region-dropdown">
-                            <label><input type="checkbox" value="all" checked onclick="handleCheckboxClick(event, 'region')"> All Regions</label>
-                            <label><input type="checkbox" value="africa" onclick="handleCheckboxClick(event, 'region')"> Africa</label>
-                            <label><input type="checkbox" value="asia" onclick="handleCheckboxClick(event, 'region')"> Asia</label>
-                            <label><input type="checkbox" value="europe" onclick="handleCheckboxClick(event, 'region')"> Europe</label>
-                            <label><input type="checkbox" value="north_america" onclick="handleCheckboxClick(event, 'region')"> North America</label>
-                            <label><input type="checkbox" value="south_america" onclick="handleCheckboxClick(event, 'region')"> South America</label>
-                            <label><input type="checkbox" value="oceania" onclick="handleCheckboxClick(event, 'region')"> Oceania</label>
+                            <label><input type="checkbox" value="all" checked
+                                    onclick="handleCheckboxClick(event, 'region')"> All Regions</label>
+                            <label><input type="checkbox" value="africa" onclick="handleCheckboxClick(event, 'region')">
+                                Africa</label>
+                            <label><input type="checkbox" value="asia" onclick="handleCheckboxClick(event, 'region')">
+                                Asia</label>
+                            <label><input type="checkbox" value="europe" onclick="handleCheckboxClick(event, 'region')">
+                                Europe</label>
+                            <label><input type="checkbox" value="north_america"
+                                    onclick="handleCheckboxClick(event, 'region')"> North America</label>
+                            <label><input type="checkbox" value="south_america"
+                                    onclick="handleCheckboxClick(event, 'region')"> South America</label>
+                            <label><input type="checkbox" value="oceania"
+                                    onclick="handleCheckboxClick(event, 'region')"> Oceania</label>
                         </div>
                         <span class="header-chevron">▼</span>
                     </th>
                     <th onclick="toggleHeaderDropdown('type', event)">Type
                         <div class="header-dropdown" id="type-dropdown">
-                            <label><input type="checkbox" value="all" checked onclick="handleCheckboxClick(event, 'type')"> All Types</label>
-                            <label><input type="checkbox" value="big-brand" onclick="handleCheckboxClick(event, 'type')"> Big Brand</label>
-                            <label><input type="checkbox" value="cottage" onclick="handleCheckboxClick(event, 'type')"> Cottage</label>
-                            <label><input type="checkbox" value="retailer" onclick="handleCheckboxClick(event, 'type')"> Retailer</label>
+                            <label><input type="checkbox" value="all" checked
+                                    onclick="handleCheckboxClick(event, 'type')"> All Types</label>
+                            <label><input type="checkbox" value="big-brand"
+                                    onclick="handleCheckboxClick(event, 'type')"> Big Brand</label>
+                            <label><input type="checkbox" value="cottage" onclick="handleCheckboxClick(event, 'type')">
+                                Cottage</label>
+                            <label><input type="checkbox" value="retailer" onclick="handleCheckboxClick(event, 'type')">
+                                Retailer</label>
                         </div>
                         <span class="header-chevron">▼</span>
                     </th>
@@ -576,7 +587,7 @@
         function handleCheckboxClick(event, filterType) {
             event.stopPropagation();
             const checkbox = event.target;
-            
+
             // Handle "All" option
             if (checkbox.value === 'all') {
                 const checkboxes = document.querySelectorAll(`#${filterType}-dropdown input[type="checkbox"]`);
@@ -596,7 +607,7 @@
             // Update filters immediately
             const filterSet = currentFilters[filterType];
             filterSet.clear();
-            
+
             const selectedCheckboxes = document.querySelectorAll(`#${filterType}-dropdown input[type="checkbox"]:checked`);
             if (selectedCheckboxes.length === 0) {
                 filterSet.add('all');
@@ -611,10 +622,10 @@
 
         function toggleHeaderDropdown(filterType, event) {
             event.stopPropagation();
-            
+
             const dropdown = document.getElementById(`${filterType}-dropdown`);
             const allDropdowns = document.querySelectorAll('.header-dropdown');
-            
+
             // Close all other dropdowns
             allDropdowns.forEach(d => {
                 if (d !== dropdown) {
@@ -647,7 +658,7 @@
         }
 
         // Close dropdowns when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             if (!event.target.closest('.header-dropdown') && !event.target.closest('th')) {
                 document.querySelectorAll('.header-dropdown').forEach(dropdown => {
                     dropdown.classList.remove('active');
