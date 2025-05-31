@@ -55,10 +55,9 @@
 
         h1 {
             color: #2c3e50;
-            text-align: center;
             margin-bottom: 30px;
             font-size: 24px;
-            font-weight: 500;
+            /* font-weight: 500; */
         }
 
         .table-container {
@@ -181,11 +180,19 @@
             text-align: center;
         }
 
+        th:nth-child(4) {
+            text-align: right;
+        }
+
         td {
             padding: 12px 16px;
             border-bottom: 1px solid #dee2e6;
             color: #212529;
             font-size: 0.95rem;
+        }
+
+        td:last-child {
+            text-align: right;
         }
 
         .tag {
@@ -588,7 +595,6 @@
             event.stopPropagation();
             const checkbox = event.target;
 
-            // Handle "All" option
             if (checkbox.value === 'all') {
                 const checkboxes = document.querySelectorAll(`#${filterType}-dropdown input[type="checkbox"]`);
                 checkboxes.forEach(cb => {
@@ -597,14 +603,12 @@
                     }
                 });
             } else {
-                // If selecting a specific option, uncheck "All"
                 const allCheckbox = document.querySelector(`#${filterType}-dropdown input[value="all"]`);
                 if (allCheckbox) {
                     allCheckbox.checked = false;
                 }
             }
 
-            // Update filters immediately
             const filterSet = currentFilters[filterType];
             filterSet.clear();
 
@@ -616,7 +620,6 @@
                 selectedCheckboxes.forEach(cb => filterSet.add(cb.value));
             }
 
-            // Update the table
             filterTable();
         }
 
@@ -626,17 +629,14 @@
             const dropdown = document.getElementById(`${filterType}-dropdown`);
             const allDropdowns = document.querySelectorAll('.header-dropdown');
 
-            // Close all other dropdowns
             allDropdowns.forEach(d => {
                 if (d !== dropdown) {
                     d.classList.remove('active');
                 }
             });
 
-            // Toggle current dropdown
             dropdown.classList.toggle('active');
 
-            // Update checkboxes based on current filters
             const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(checkbox => {
                 checkbox.checked = currentFilters[filterType].has(checkbox.value);
@@ -657,7 +657,6 @@
             updateTable(filteredData);
         }
 
-        // Close dropdowns when clicking outside
         document.addEventListener('click', function (event) {
             if (!event.target.closest('.header-dropdown') && !event.target.closest('th')) {
                 document.querySelectorAll('.header-dropdown').forEach(dropdown => {
