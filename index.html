@@ -61,93 +61,6 @@
             font-weight: 500;
         }
 
-        .filters {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .filter-group {
-            margin-bottom: 15px;
-        }
-
-        .filter-group h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #2c3e50;
-        }
-
-        .filter-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .filter-btn {
-            padding: 8px 12px;
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
-            margin: 2px;
-        }
-
-        .filter-btn:hover {
-            background-color: #e0e0e0;
-        }
-
-        .filter-btn.active {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .filter-btn.active:hover {
-            background-color: #2980b9;
-        }
-
-
-        /* For printing the page */
-        @media print {
-
-            .filters,
-            .report-form,
-
-            footer {
-                display: none !important;
-            }
-
-            body {
-                background: white;
-                color: black;
-            }
-
-            a::after {
-                content: " (" attr(href) ")";
-                font-size: 0.9em;
-            }
-
-            h1,
-            header,
-            .site-title,
-            .nav,
-            .breadcrumbs,
-            .no-print {
-                display: none !important;
-            }
-
-            table,
-            tr,
-            td,
-            th {
-                page-break-inside: avoid;
-            }
-        }
-
         .table-container {
             background: none;
             border-radius: 0;
@@ -172,6 +85,95 @@
             font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        th:hover {
+            background: #e9ecef;
+        }
+
+        .header-chevron {
+            display: inline-block;
+            margin-left: 6px;
+            transition: transform 0.2s ease;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .header-dropdown.active + .header-chevron {
+            transform: rotate(180deg);
+        }
+
+        .header-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            min-width: 200px;
+            display: none;
+            padding: 8px;
+        }
+
+        .header-dropdown.active {
+            display: block;
+        }
+
+        .header-dropdown label {
+            display: block;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 2px 0;
+        }
+
+        .header-dropdown label:hover {
+            background: #f8f9fa;
+        }
+
+        .header-dropdown input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .header-dropdown .dropdown-header {
+            padding: 8px 12px;
+            font-weight: 600;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 8px;
+        }
+
+        .header-dropdown .dropdown-footer {
+            padding: 8px 12px;
+            border-top: 1px solid #dee2e6;
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .header-dropdown button {
+            padding: 4px 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .header-dropdown button:hover {
+            background: #2980b9;
+        }
+
+        .filter-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #3498db;
+            border-radius: 50%;
+            margin-left: 6px;
+            vertical-align: middle;
         }
 
         th:first-child {
@@ -283,45 +285,33 @@
 <body>
     <h1>Outdoor Gear Shops</h1>
 
-    <div class="filters">
-        <div class="filter-group">
-            <h3>Region</h3>
-            <div class="filter-options">
-                <button class="filter-btn active" data-value="all" onclick="filterTable('region', 'all')">All</button>
-                <button class="filter-btn" data-value="africa" onclick="filterTable('region', 'africa')">Africa</button>
-                <button class="filter-btn" data-value="asia" onclick="filterTable('region', 'asia')">Asia</button>
-                <button class="filter-btn" data-value="europe" onclick="filterTable('region', 'europe')">Europe</button>
-                <button class="filter-btn" data-value="north_america"
-                    onclick="filterTable('region', 'north_america')">North America</button>
-                <button class="filter-btn" data-value="south_america"
-                    onclick="filterTable('region', 'south_america')">South America</button>
-                <button class="filter-btn" data-value="oceania"
-                    onclick="filterTable('region', 'oceania')">Oceania</button>
-            </div>
-        </div>
-
-        <div class="filter-group">
-            <h3>Type</h3>
-            <div class="filter-options">
-                <button class="filter-btn active" data-value="all" onclick="filterTable('type', 'all')">All</button>
-                <button class="filter-btn" data-value="big-brand" onclick="filterTable('type', 'big-brand')">Big
-                    Brand</button>
-                <button class="filter-btn" data-value="cottage"
-                    onclick="filterTable('type', 'cottage')">Cottage</button>
-                <button class="filter-btn" data-value="retailer"
-                    onclick="filterTable('type', 'retailer')">Retailer</button>
-            </div>
-        </div>
-    </div>
-
     <div class="table-container" id="table-container">
         <table id="directory-table">
             <thead>
                 <tr>
                     <th style="width: 52px"></th>
                     <th>Name</th>
-                    <th>Region</th>
-                    <th>Type</th>
+                    <th onclick="toggleHeaderDropdown('region', event)">Region
+                        <div class="header-dropdown" id="region-dropdown">
+                            <label><input type="checkbox" value="all" checked onclick="handleCheckboxClick(event, 'region')"> All Regions</label>
+                            <label><input type="checkbox" value="africa" onclick="handleCheckboxClick(event, 'region')"> Africa</label>
+                            <label><input type="checkbox" value="asia" onclick="handleCheckboxClick(event, 'region')"> Asia</label>
+                            <label><input type="checkbox" value="europe" onclick="handleCheckboxClick(event, 'region')"> Europe</label>
+                            <label><input type="checkbox" value="north_america" onclick="handleCheckboxClick(event, 'region')"> North America</label>
+                            <label><input type="checkbox" value="south_america" onclick="handleCheckboxClick(event, 'region')"> South America</label>
+                            <label><input type="checkbox" value="oceania" onclick="handleCheckboxClick(event, 'region')"> Oceania</label>
+                        </div>
+                        <span class="header-chevron">▼</span>
+                    </th>
+                    <th onclick="toggleHeaderDropdown('type', event)">Type
+                        <div class="header-dropdown" id="type-dropdown">
+                            <label><input type="checkbox" value="all" checked onclick="handleCheckboxClick(event, 'type')"> All Types</label>
+                            <label><input type="checkbox" value="big-brand" onclick="handleCheckboxClick(event, 'type')"> Big Brand</label>
+                            <label><input type="checkbox" value="cottage" onclick="handleCheckboxClick(event, 'type')"> Cottage</label>
+                            <label><input type="checkbox" value="retailer" onclick="handleCheckboxClick(event, 'type')"> Retailer</label>
+                        </div>
+                        <span class="header-chevron">▼</span>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -583,34 +573,66 @@
             type: new Set(['all'])
         };
 
-        function filterTable(filterType, value) {
-            const filterSet = currentFilters[filterType];
-
-            if (value === 'all') {
-                filterSet.clear();
-                filterSet.add('all');
-            } else {
-                filterSet.delete('all');
-
-                if (filterSet.has(value)) {
-                    filterSet.delete(value);
-                    if (filterSet.size === 0) {
-                        filterSet.add('all');
+        function handleCheckboxClick(event, filterType) {
+            event.stopPropagation();
+            const checkbox = event.target;
+            
+            // Handle "All" option
+            if (checkbox.value === 'all') {
+                const checkboxes = document.querySelectorAll(`#${filterType}-dropdown input[type="checkbox"]`);
+                checkboxes.forEach(cb => {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
                     }
-                } else {
-                    filterSet.add(value);
+                });
+            } else {
+                // If selecting a specific option, uncheck "All"
+                const allCheckbox = document.querySelector(`#${filterType}-dropdown input[value="all"]`);
+                if (allCheckbox) {
+                    allCheckbox.checked = false;
                 }
             }
 
-            document.querySelectorAll(`.filter-btn[onclick*="${filterType}"]`).forEach(btn => {
-                const btnValue = btn.getAttribute('data-value');
-                if (filterSet.has(btnValue)) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
+            // Update filters immediately
+            const filterSet = currentFilters[filterType];
+            filterSet.clear();
+            
+            const selectedCheckboxes = document.querySelectorAll(`#${filterType}-dropdown input[type="checkbox"]:checked`);
+            if (selectedCheckboxes.length === 0) {
+                filterSet.add('all');
+                document.querySelector(`#${filterType}-dropdown input[value="all"]`).checked = true;
+            } else {
+                selectedCheckboxes.forEach(cb => filterSet.add(cb.value));
+            }
+
+            // Update the table
+            filterTable();
+        }
+
+        function toggleHeaderDropdown(filterType, event) {
+            event.stopPropagation();
+            
+            const dropdown = document.getElementById(`${filterType}-dropdown`);
+            const allDropdowns = document.querySelectorAll('.header-dropdown');
+            
+            // Close all other dropdowns
+            allDropdowns.forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.remove('active');
                 }
             });
 
+            // Toggle current dropdown
+            dropdown.classList.toggle('active');
+
+            // Update checkboxes based on current filters
+            const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = currentFilters[filterType].has(checkbox.value);
+            });
+        }
+
+        function filterTable() {
             const filteredData = allData.filter(item => {
                 const regionMatch = currentFilters.region.has('all') ||
                     item.regions.some(region =>
@@ -623,6 +645,15 @@
 
             updateTable(filteredData);
         }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.header-dropdown') && !event.target.closest('th')) {
+                document.querySelectorAll('.header-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
 
         function updateTable(data) {
             const tableBody = document.querySelector('#directory-table tbody');
