@@ -40,8 +40,11 @@ const vendors = [
         url: "https://ultralightoutdoorgear.co.uk/",
         shipsTo: [Regions.WORLDWIDE],
         types: [Types.RETAILER],
-        physical_locations: [],
-        shipsFrom: [],
+        physical_locations: [{
+            lat: 54.636706846001864,
+            long: -1.3264388234489715,
+        }],
+        shipsFrom: [Regions.GREATBRITAIN],
     },
     {
         name: "Shelby Outdoor",
