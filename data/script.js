@@ -140,6 +140,5 @@ function updateTable(data) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    console.log(vendors);
     updateTable(vendors);
 });
