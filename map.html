@@ -188,15 +188,10 @@
                 document.querySelectorAll('.shop-item').forEach(item => {
                     item.classList.remove('active');
                 });
-
                 li.classList.add('active');
 
-                if (!shop.physical_locations) {
-                    console.log("No location array for shop " + shop.name)
-                    return;
-                }
-
-                if (shop.physical_locations.length > 0) {
+                // If the shop has physical locations, center the map on the first one
+                if (shop.physical_locations && shop.physical_locations.length > 0) {
                     const location = shop.physical_locations[0];
                     map.setView([location.lat, location.long], 8);
                 }
@@ -204,26 +199,28 @@
 
             shopList.appendChild(li);
 
-            // Add marker if physical locations are available
+            // Add markers for all physical locations
             if (shop.physical_locations && shop.physical_locations.length > 0) {
-                const location = shop.physical_locations[0];
-                const faviconUrl = `https://www.google.com/s2/favicons?domain=${shop.url}&sz=64`;
+                shop.physical_locations.forEach((location, index) => {
+                    const faviconUrl = `https://www.google.com/s2/favicons?domain=${shop.url}&sz=64`;
+                    
+                    // Create custom icon
+                    const customIcon = L.icon({
+                        iconUrl: faviconUrl,
+                        iconSize: [48, 48],
+                        iconAnchor: [24, 24],
+                        popupAnchor: [0, -24]
+                    });
 
-                // Create custom icon
-                const customIcon = L.icon({
-                    iconUrl: faviconUrl,
-                    iconSize: [48, 48],
-                    iconAnchor: [24, 24],
-                    popupAnchor: [0, -24]
+                    const marker = L.marker([location.lat, location.long], { icon: customIcon })
+                        .bindPopup(`
+                            <strong><a href="${shop.url}" target="_blank">${shop.name}</a></strong><br>
+                            ${shop.types.join(', ')}<br>
+                            Ships to: ${shop.shipsTo.join(', ')}
+                            ${shop.physical_locations.length > 1 ? `<br><small>Location ${index + 1} of ${shop.physical_locations.length}</small>` : ''}
+                        `);
+                    markers.addLayer(marker);
                 });
-
-                const marker = L.marker([location.lat, location.long], {icon: customIcon})
-                    .bindPopup(`
-                        <strong><a href="${shop.url}" target="_blank">${shop.name}</a></strong><br>
-                        ${shop.types.join(', ')}<br>
-                        Ships to: ${shop.shipsTo.join(', ')}
-                    `);
-                markers.addLayer(marker);
             }
         });
     </script>

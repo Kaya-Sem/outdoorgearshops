@@ -235,8 +235,14 @@ const vendors = [
         url: "https://www.nalehko.cz/",
         shipsTo: [Regions.EUROPE],
         types: [Types.COTTAGE],
-        physical_locations: [],
-        shipsFrom: [],
+        physical_locations: [{
+            lat: 50.090648632154206,
+            long: 14.43075349448762,
+        }, {
+            lat: 50.76818309022345,
+            long: 15.05555311822938,
+        }],
+        shipsFrom: [Regions.EUROPE],
     },
     {
         name: "Liteway",
