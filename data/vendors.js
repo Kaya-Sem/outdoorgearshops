@@ -283,8 +283,11 @@ const vendors = [
         url: "https://www.pod7kilo.cz/en/",
         shipsTo: [Regions.EUROPE],
         types: [Types.COTTAGE],
-        physical_locations: [],
-        shipsFrom: [],
+        physical_locations: [{
+            lat: 50.10008649268494,
+            long: 14.426149762930807,
+        }],
+        shipsFrom: [Regions.EUROPE],
     },
     {
         name: "XFOIL",
