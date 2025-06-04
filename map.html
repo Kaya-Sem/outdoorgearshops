@@ -30,7 +30,7 @@
             top: 0;
             left: 0;
             bottom: 0;
-            width: 500px;
+            width: 300px;
             background: white;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             z-index: 2;
@@ -208,7 +208,7 @@
             if (shop.physical_locations && shop.physical_locations.length > 0) {
                 const location = shop.physical_locations[0];
                 const faviconUrl = `https://www.google.com/s2/favicons?domain=${shop.url}&sz=64`;
-                
+
                 // Create custom icon
                 const customIcon = L.icon({
                     iconUrl: faviconUrl,
@@ -217,7 +217,7 @@
                     popupAnchor: [0, -24]
                 });
 
-                const marker = L.marker([location.lat, location.long], { icon: customIcon })
+                const marker = L.marker([location.lat, location.long], {icon: customIcon})
                     .bindPopup(`
                         <strong><a href="${shop.url}" target="_blank">${shop.name}</a></strong><br>
                         ${shop.types.join(', ')}<br>
