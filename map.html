@@ -137,7 +137,14 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="data/vendors.js"></script>
     <script>
-        const map = L.map('map').setView([20, 0], 2);
+        const map = L.map('map', {
+            worldCopyJump: false,
+            maxBounds: [
+                [-90, -180],
+                [90, 180]
+            ],
+            maxBoundsViscosity: 1.0
+        }).setView([20, 0], 2);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
@@ -200,7 +207,17 @@
             // Add marker if physical locations are available
             if (shop.physical_locations && shop.physical_locations.length > 0) {
                 const location = shop.physical_locations[0];
-                const marker = L.marker([location.lat, location.long])
+                const faviconUrl = `https://www.google.com/s2/favicons?domain=${shop.url}&sz=64`;
+                
+                // Create custom icon
+                const customIcon = L.icon({
+                    iconUrl: faviconUrl,
+                    iconSize: [48, 48],
+                    iconAnchor: [24, 24],
+                    popupAnchor: [0, -24]
+                });
+
+                const marker = L.marker([location.lat, location.long], { icon: customIcon })
                     .bindPopup(`
                         <strong><a href="${shop.url}" target="_blank">${shop.name}</a></strong><br>
                         ${shop.types.join(', ')}<br>
