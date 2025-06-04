@@ -30,7 +30,7 @@
             font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f9f9f9;
@@ -205,6 +205,10 @@
             display: inline;
         }
 
+        .flag-emoji {
+            cursor: help;
+        }
+
         .no-results {
             padding: 30px;
             text-align: center;
@@ -298,7 +302,7 @@
                 <tr>
                     <th style="width: 52px"></th>
                     <th>Name</th>
-                    <th onclick="toggleHeaderDropdown('region', event)">Region
+                    <th onclick="toggleHeaderDropdown('region', event)">Ships to
                         <div class="header-dropdown" id="region-dropdown">
                             <label><input type="checkbox" value="europe" onclick="handleCheckboxClick(event, 'region')">
                                 Europe</label>
