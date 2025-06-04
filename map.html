@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Map view of outdoor gear shops worldwide">
+    <title>Outdoor Gear Shops Map</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌲</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 300px;
+            z-index: 1;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 500px;
+            background: white;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h1 {
+            margin: 0;
+            font-size: 20px;
+            color: #2c3e50;
+        }
+
+        .nav-link {
+            color: #1e40af;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: #e9ecef;
+        }
+
+        .shop-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .shop-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .shop-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .shop-item.active {
+            background-color: #e9ecef;
+        }
+
+        .shop-name {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .shop-type {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .shop-location {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .flag-emoji {
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: 40%;
+                bottom: auto;
+            }
+
+            #map {
+                top: 40%;
+                left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>Outdoor Gear Shops</h1>
+            <a href="index.html" class="nav-link">List View</a>
+        </div>
+        <ul class="shop-list" id="shop-list">
+            <!-- Shop items will be dynamically inserted here -->
+        </ul>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="data/vendors.js"></script>
+    <script>
+        const map = L.map('map').setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Create markers layer group
+        const markers = L.layerGroup().addTo(map);
+
+        // Populate the sidebar and add markers
+        const shopList = document.getElementById('shop-list');
+        const regionFlags = {
+            "europe": "🇪🇺",
+            "ukraine": "🇺🇦",
+            "united states": "🇺🇸",
+            "south america": "🇧🇷",
+            "worldwide": "🌍",
+            "great britain": "🇬🇧",
+            "asia": "🌏",
+            "africa": "🌍",
+        };
+
+        vendors.forEach((shop, index) => {
+            // Skip vendors without physical locations
+            if (!shop.physical_locations || shop.physical_locations.length === 0) {
+                return;
+            }
+
+            // Create list item
+            const li = document.createElement('li');
+            li.className = 'shop-item';
+            li.innerHTML = `
+                <div class="shop-name">
+                    <img src="https://www.google.com/s2/favicons?domain=${shop.url}&sz=32" alt="" width="32" height="32" style="vertical-align: middle; margin-right: 12px;">
+                    <span class="flag-emoji" title="${shop.shipsFrom?.[0] || 'Unknown location'}">
+                        ${shop.shipsFrom?.[0] ? regionFlags[shop.shipsFrom[0].toLowerCase()] || '🌐' : '❓'}
+                    </span>
+                    ${shop.name}
+                </div>
+            `;
+
+            li.addEventListener('click', () => {
+                document.querySelectorAll('.shop-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                li.classList.add('active');
+
+                if (!shop.physical_locations) {
+                    console.log("No location array for shop " + shop.name)
+                    return;
+                }
+
+                if (shop.physical_locations.length > 0) {
+                    const location = shop.physical_locations[0];
+                    map.setView([location.lat, location.long], 8);
+                }
+            });
+
+            shopList.appendChild(li);
+
+            // Add marker if physical locations are available
+            if (shop.physical_locations && shop.physical_locations.length > 0) {
+                const location = shop.physical_locations[0];
+                const marker = L.marker([location.lat, location.long])
+                    .bindPopup(`
+                        <strong><a href="${shop.url}" target="_blank">${shop.name}</a></strong><br>
+                        ${shop.types.join(', ')}<br>
+                        Ships to: ${shop.shipsTo.join(', ')}
+                    `);
+                markers.addLayer(marker);
+            }
+        });
+    </script>
+</body>
+
+</html>

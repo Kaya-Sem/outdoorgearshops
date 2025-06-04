@@ -25,6 +25,17 @@ const vendors = [
         shipsFrom: [Regions.EUROPE],
     },
     {
+        name: "Sage To Summit",
+        url: "https://sagetosummit.com/",
+        shipsTo: [Regions.NORTH_AMERICA],
+        types: [Types.RETAILER],
+        physical_locations: [{
+            lat: 37.36297320673426,
+            long: -118.39497086264946,
+        }],
+        shipsFrom: [Regions.NORTH_AMERICA],
+    },
+    {
         name: "Ultralight Outdoor Gear",
         url: "https://ultralightoutdoorgear.co.uk/",
         shipsTo: [Regions.WORLDWIDE],

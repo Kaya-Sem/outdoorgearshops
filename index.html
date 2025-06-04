@@ -290,11 +290,41 @@
                 padding: 0.2em 0.2em;
             }
         }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #2c3e50;
+        }
+
+        .nav-link {
+            color: #1e40af;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: #e9ecef;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Outdoor Gear Shops</h1>
+    <div class="header">
+        <h1>Outdoor Gear Shops</h1>
+        <a href="map.html" class="nav-link">Physical Locations</a>
+    </div>
 
     <div class="table-container" id="table-container">
         <table id="directory-table">
